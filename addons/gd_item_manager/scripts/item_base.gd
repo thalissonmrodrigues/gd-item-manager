@@ -1,5 +1,6 @@
 class_name ItemBase extends Resource
 
+
 @export var friendly_id: String = ""
 @export var display_name: String = ""
 @export_multiline var description: String = ""
