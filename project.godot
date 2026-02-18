@@ -14,6 +14,10 @@ config/name="GD Item Manager"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GDItemDatabase="*uid://bkovqa8537mht"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/gd_item_manager/plugin.cfg")

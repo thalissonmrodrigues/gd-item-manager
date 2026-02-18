@@ -7,7 +7,7 @@ const AUTOLOAD_NAME: String = "GDItemDatabase"
 
 func _enable_plugin() -> void:
 	# Create autoload.
-	add_autoload_singleton(AUTOLOAD_NAME, "res://addons/gd_item_manager/scripts/gd_item_database.gd")
+	add_autoload_singleton(AUTOLOAD_NAME, "res://addons/gd_item_manager/scripts/item_database.gd")
 
 	# Check if the configuration already exists if not, create a default one.
 	if not ProjectSettings.has_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH):
