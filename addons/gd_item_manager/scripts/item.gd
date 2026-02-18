@@ -1,4 +1,5 @@
-class_name ItemBase extends Resource
+## The basis for creating items
+class_name GDItem extends Resource
 
 
 @export var friendly_id: String = ""
