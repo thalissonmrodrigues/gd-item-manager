@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="GDItem" format=3 uid="uid://dspy2w0j115nt"]
+
+[ext_resource type="Script" uid="uid://c4x5aeiiu4arh" path="res://addons/gd_item_manager/scripts/item.gd" id="1_kpnvl"]
+
+[resource]
+resource_path = "res://items/pocao.tres"
+script = ExtResource("1_kpnvl")
+friendly_id = "pocao"
+display_name = "Poção de Cura"
+description = "cura o usuario"
+is_stackable = true
+max_stack_size = 99
+metadata/_custom_type_script = "uid://c4x5aeiiu4arh"

@@ -8,6 +8,10 @@
 
 config_version=5
 
+[addons]
+
+gd_item_manager/general/item_database_path="res://item_database.cfg"
+
 [application]
 
 config/name="GD Item Manager"
@@ -16,7 +20,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GDItemDatabase="*uid://bkovqa8537mht"
+GDItemDatabase="*uid://dtjjl0ix2sbag"
 
 [editor_plugins]
 

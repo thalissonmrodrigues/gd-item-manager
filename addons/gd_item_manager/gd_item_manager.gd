@@ -3,6 +3,7 @@ extends EditorPlugin
 
 
 const AUTOLOAD_NAME: String = "GDItemDatabase"
+var _item_manager_panel: Control
 
 
 func _enable_plugin() -> void:
@@ -13,9 +14,7 @@ func _enable_plugin() -> void:
 	if not ProjectSettings.has_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH):
 		ProjectSettings.set_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH, GDItemManagerSettings.DEFAULT_DATABASE_PATH)
 
-	ProjectSettings.set_initial_value(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH, GDItemManagerSettings.DEFAULT_DATABASE_PATH)
-
-	var property_info = {
+	var property_info: Dictionary = {
 		"name": GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH,
 		"type": TYPE_STRING,
 		"hint": PROPERTY_HINT_FILE,
@@ -40,10 +39,30 @@ func _disable_plugin() -> void:
 
 
 func _enter_tree() -> void:
-	# Initialization of the plugin goes here.
-	pass
+	# Adds the item manger panel to the editor.
+	_item_manager_panel = load("res://addons/gd_item_manager/editor/panel/item_manager_panel.tscn").instantiate()
+	EditorInterface.get_editor_main_screen().add_child(_item_manager_panel)
+	_make_visible(false)
 
 
 func _exit_tree() -> void:
-	# Clean-up of the plugin goes here.
-	pass
+	# Remove item manger panel to the editor.
+	if _item_manager_panel:
+		_item_manager_panel.queue_free()
+
+
+func _has_main_screen() -> bool:
+	return true
+
+
+func _get_plugin_name() -> String:
+	return "GD Item Manager"
+
+
+func _make_visible(visible) -> void:
+	if _item_manager_panel:
+		_item_manager_panel.visible = visible
+
+
+func _get_plugin_icon() -> Texture2D:
+	return EditorInterface.get_base_control().get_theme_icon("Object", "EditorIcons")

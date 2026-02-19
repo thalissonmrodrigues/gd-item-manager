@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="GDItem" format=3 uid="uid://2vi2ycyqneix"]
+
+[ext_resource type="Script" uid="uid://c4x5aeiiu4arh" path="res://addons/gd_item_manager/scripts/item.gd" id="1_2ydhx"]
+[ext_resource type="Texture2D" uid="uid://c5hgpnnjgwlb6" path="res://items/sprites/bronze.png" id="1_lyb8l"]
+
+[resource]
+resource_path = "res://items/bronze.tres"
+script = ExtResource("1_2ydhx")
+friendly_id = "bronze"
+display_name = "Bronze Bar"
+description = "bronzeandoasdasdasdasd"
+icon = ExtResource("1_lyb8l")
+metadata/_custom_type_script = "uid://c4x5aeiiu4arh"
