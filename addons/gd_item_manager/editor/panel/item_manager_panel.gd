@@ -14,8 +14,11 @@ var _current_item: GDItem
 var _inspector: EditorInspector
 var _search_timer: SceneTreeTimer
 
+const CREATE_ITEM_AND_CATEGORY_DIALOG = preload("res://addons/gd_item_manager/editor/dialog/create_item_and_category.tscn")
 
 func _ready() -> void:
+	auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+
 	add_item.icon = get_theme_icon("Add", "EditorIcons")
 	remove_item.icon = get_theme_icon("Remove", "EditorIcons")
 	edit_script.icon = get_theme_icon("ScriptExtend", "EditorIcons")
@@ -46,8 +49,7 @@ func refresh_item_list(filters: Dictionary = {}) -> void:
 		for item in items as Array[GDItem]:
 			var idx: int = item_list.add_item(item.display_name)
 			item_list.set_item_metadata(idx, item)
-			var icon: Texture2D = item.icon if item.icon else get_theme_icon("Object", "EditorIcons")
-			item_list.set_item_icon(idx, icon)
+			item_list.set_item_icon(idx, item.icon)
 
 
 ## Triggered when the item_selected signal from the item_list is activated, then select the item that was clicked.
@@ -56,7 +58,7 @@ func _on_item_list_item_selected(index: int) -> void:
 	var previous_item: GDItem = _inspector.get_edited_object()
 
 	if previous_item == item:
-		_deselect_item(index)
+		_deselect_item()
 	else:
 		_select_item(item)
 
@@ -69,8 +71,8 @@ func _select_item(item: GDItem) -> void:
 
 
 ## Deselect the item and remove of inspector.
-func _deselect_item(index: int) -> void:
-	item_list.deselect(index)
+func _deselect_item() -> void:
+	item_list.deselect_all()
 	_inspector.edit(null)
 	_current_item = null
 	_update_access_to_buttons()
@@ -106,3 +108,62 @@ func _on_search_text_changed(search: String) -> void:
 func _on_reload_list_pressed() -> void:
 	search_item.text = ""
 	refresh_item_list()
+
+
+
+
+
+
+
+
+
+
+
+
+func _on_add_item_pressed() -> void:
+	var dialog: ConfirmationDialog = CREATE_ITEM_AND_CATEGORY_DIALOG.instantiate()
+	add_child(dialog)
+	_deselect_item()
+	dialog.creation_requested.connect(_on_create_requested)
+
+
+
+
+func _on_create_requested(data: Dictionary):
+	if data.type == "ITEM":
+		var items_folder: String = ProjectSettings.get_setting(GDItemManagerSettings.SETTING_ITEMS_PATH, GDItemManagerSettings.DEFAULT_ITEMS_PATH)
+
+		var item: GDItem = data.category.new()
+		item.friendly_id = data.file_name.to_snake_case()
+		item.display_name = data.file_name
+		var path = items_folder + item.friendly_id + ".tres"
+		var err = ResourceSaver.save(item, path)
+
+		if err != OK:
+			push_warning("GDItemManagerPanel: File creation failed. Path to save: %s ]" % [path])
+			return
+
+		var uid = ResourceLoader.get_resource_uid(path)
+		if uid == -1:
+			push_error("GDItemDatabase: Error retrieving UID")
+			return
+		var uid_string = ResourceUID.id_to_text(uid)
+		err = GDItemDatabase.add_item(item.friendly_id, uid_string)
+
+		if err == OK:
+			refresh_item_list()
+
+		return
+
+	#if data.type == "CATEGORY":
+		## Criação de um novo Script (.gd) que extende a categoria
+		#var path = base_folder + data.file_name + ".gd"
+		#var content = "@tool\nextends %s\nclass_name %s\n" % [data.base_script, data.file_name.to_pascal_case()]
+#
+		#var file = FileAccess.open(path, FileAccess.WRITE)
+		#file.store_string(content)
+		#file.close()
+#
+		#EditorInterface.get_resource_filesystem().scan()
+		#await EditorInterface.get_resource_filesystem().sources_changed
+		#EditorInterface.edit_resource(load(path))

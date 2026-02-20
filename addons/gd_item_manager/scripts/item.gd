@@ -2,11 +2,11 @@
 ## The basis for creating items
 class_name GDItem extends Resource
 
-
-@export var friendly_id: String = ""
-@export var display_name: String = ""
-@export_multiline var description: String = ""
-@export var icon: Texture2D
+@export_group("Base Info")
+@export var friendly_id: String
+@export var display_name: String
+@export_multiline() var description: String
+@export var icon: Texture2D = preload("res://addons/gd_item_manager/assets/icon/item.png")
 @export var is_stackable: bool = false
 @export_range(1, 999) var max_stack_size: int = 1
 @export var weight: float = 0.0

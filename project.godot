@@ -11,6 +11,8 @@ config_version=5
 [addons]
 
 gd_item_manager/general/item_database_path="res://item_database.cfg"
+gd_item_manager/general/items_path="res://items/"
+gd_item_manager/general/item_category_path="res://items/categories/"
 
 [application]
 

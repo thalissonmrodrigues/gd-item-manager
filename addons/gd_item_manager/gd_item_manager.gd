@@ -7,33 +7,15 @@ var _item_manager_panel: Control
 
 
 func _enable_plugin() -> void:
-	# Create autoload.
 	add_autoload_singleton(AUTOLOAD_NAME, "res://addons/gd_item_manager/scripts/item_database.gd")
-
-	# Check if the configuration already exists if not, create a default one.
-	if not ProjectSettings.has_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH):
-		ProjectSettings.set_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH, GDItemManagerSettings.DEFAULT_DATABASE_PATH)
-
-	var property_info: Dictionary = {
-		"name": GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH,
-		"type": TYPE_STRING,
-		"hint": PROPERTY_HINT_FILE,
-		"hint_string": "*.cfg"
-	}
-	ProjectSettings.add_property_info(property_info)
-	ProjectSettings.save()
+	_create_settings()
 
 	print("GD Item Manager: enabled.")
 
 
 func _disable_plugin() -> void:
-	# Removes autoload.
 	remove_autoload_singleton(AUTOLOAD_NAME)
-
-	# Removes a setting when disabling the plugin.
-	if ProjectSettings.has_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH):
-		ProjectSettings.set_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH, null)
-		ProjectSettings.save()
+	_remove_settings()
 
 	print("GD Item Manager: disabled.")
 
@@ -66,3 +48,60 @@ func _make_visible(visible) -> void:
 
 func _get_plugin_icon() -> Texture2D:
 	return EditorInterface.get_base_control().get_theme_icon("Object", "EditorIcons")
+
+## Create settings if not exists.
+func _create_settings() -> void:
+	# Database path.
+	if not ProjectSettings.has_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH):
+		ProjectSettings.set_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH, GDItemManagerSettings.DEFAULT_DATABASE_PATH)
+
+	var property_info: Dictionary = {
+		"name": GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH,
+		"type": TYPE_STRING,
+		"hint": PROPERTY_HINT_FILE,
+		"hint_string": "*.cfg"
+	}
+	ProjectSettings.add_property_info(property_info)
+
+	# Items path.
+	if not ProjectSettings.has_setting(GDItemManagerSettings.SETTING_ITEMS_PATH):
+		ProjectSettings.set_setting(GDItemManagerSettings.SETTING_ITEMS_PATH, GDItemManagerSettings.DEFAULT_ITEMS_PATH)
+
+	property_info = {
+		"name": GDItemManagerSettings.SETTING_ITEMS_PATH,
+		"type": TYPE_STRING,
+		"hint": PROPERTY_HINT_FILE,
+		"hint_string": "*.cfg"
+	}
+	ProjectSettings.add_property_info(property_info)
+
+	# Categories path.
+	if not ProjectSettings.has_setting(GDItemManagerSettings.SETTING_ITEM_CATEGORY_PATH):
+		ProjectSettings.set_setting(GDItemManagerSettings.SETTING_ITEM_CATEGORY_PATH, GDItemManagerSettings.DEFAULT_ITEM_CATEGORY_PATH)
+
+	property_info = {
+		"name": GDItemManagerSettings.SETTING_ITEM_CATEGORY_PATH,
+		"type": TYPE_STRING,
+		"hint": PROPERTY_HINT_FILE,
+		"hint_string": "*.cfg"
+	}
+	ProjectSettings.add_property_info(property_info)
+
+	ProjectSettings.save()
+
+
+## Remove settings if exists.
+func _remove_settings():
+	# Database path.
+	if ProjectSettings.has_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH):
+		ProjectSettings.set_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH, null)
+
+	# Items path.
+	if ProjectSettings.has_setting(GDItemManagerSettings.SETTING_ITEMS_PATH):
+		ProjectSettings.set_setting(GDItemManagerSettings.SETTING_ITEMS_PATH, null)
+
+	# Categories path.
+	if ProjectSettings.has_setting(GDItemManagerSettings.SETTING_ITEM_CATEGORY_PATH):
+		ProjectSettings.set_setting(GDItemManagerSettings.SETTING_ITEM_CATEGORY_PATH, null)
+
+	ProjectSettings.save()

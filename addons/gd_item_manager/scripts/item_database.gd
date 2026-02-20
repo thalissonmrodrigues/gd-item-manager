@@ -10,7 +10,6 @@ func get_all() -> Array:
 	var items: Array = []
 	var database: ConfigFile = _get_database()
 	if not database:
-		#NOTE If the database is null, the _get_database() function will display the error in the terminal, so another push_warning() is not necessary here.
 		return items
 
 	if database.has_section("items"):
@@ -39,7 +38,6 @@ func get_item(friendly_id: String) -> GDItem:
 
 	var database: ConfigFile = _get_database()
 	if not database:
-		#NOTE If the database is null, the _get_database() function will display the error in the terminal, so another push_warning() is not necessary here.
 		return null
 
 	if database.has_section_key("items", friendly_id):
@@ -83,12 +81,32 @@ func where(filters: Dictionary) -> Array:
 	)
 
 
+## Adds a new item to the database.
+func add_item(friendly_id: String, uid: String) -> Error:
+	var database_path: String = ProjectSettings.get_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH, GDItemManagerSettings.DEFAULT_DATABASE_PATH)
+
+	var item_path: String = ResourceUID.uid_to_path(uid)
+	if not FileAccess.file_exists(item_path):
+		push_error("GDItemDatabase: Item file not found. Path to file: %s" % [item_path])
+		return ERR_FILE_NOT_FOUND
+
+	var database: ConfigFile = _get_database()
+	if not database:
+		database = ConfigFile.new()
+
+	database.set_value("items", friendly_id, uid)
+	var err = database.save(database_path)
+
+	if err == OK:
+		_cache[friendly_id] = load(item_path) as GDItem
+	else:
+		push_error("GDItemDatabase: Failed to save database. Error: %d" % [err])
+
+	return err
+
+
 ## Get item database.
 func _get_database() -> ConfigFile:
-	if not ProjectSettings.has_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH):
-		push_warning("GDItemDatabase: The path configuration for the item's database was not found. Path to configuration: %s" % [GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH])
-		return null
-
 	var database_path: String = ProjectSettings.get_setting(GDItemManagerSettings.SETTING_ITEM_DATABASE_PATH, GDItemManagerSettings.DEFAULT_DATABASE_PATH)
 	var database: ConfigFile = ConfigFile.new()
 	var err: Error = database.load(database_path)

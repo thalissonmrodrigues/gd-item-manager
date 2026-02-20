@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Consumable" format=3 uid="uid://d1b42tdskjspi"]
+
+[ext_resource type="Texture2D" uid="uid://1bgo50u1o5su" path="res://addons/gd_item_manager/assets/icon/item.png" id="1_770u7"]
+[ext_resource type="Script" uid="uid://ca2h8b2n6xa5x" path="res://items/categories/consumable.gd" id="2_th5rc"]
+
+[resource]
+resource_path = "res://items/poção_azul.tres"
+script = ExtResource("2_th5rc")
+mana = 50
+display_name = "Blue Potion"

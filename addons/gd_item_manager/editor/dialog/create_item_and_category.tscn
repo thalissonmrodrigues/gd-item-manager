@@ -1,0 +1,145 @@
+[gd_scene format=3 uid="uid://br4oin17rs5wk"]
+
+[ext_resource type="Script" uid="uid://uouqegplfj2w" path="res://addons/gd_item_manager/editor/dialog/create_item_and_category.gd" id="1_rsew7"]
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" unique_id=2125394692 node_paths=PackedStringArray("tab_container", "item_category_options", "file_name", "category_extender_options", "category_file_name")]
+oversampling_override = 1.0
+title = ""
+initial_position = 1
+size = Vector2i(500, 300)
+visible = true
+min_size = Vector2i(500, 300)
+ok_button_text = "Create"
+script = ExtResource("1_rsew7")
+tab_container = NodePath("TabContainer")
+item_category_options = NodePath("TabContainer/Item/MarginContainer/VBoxContainer/HBoxContainer2/CategoryOptions")
+file_name = NodePath("TabContainer/Item/MarginContainer/VBoxContainer/HBoxContainer1/FileNameText")
+category_extender_options = NodePath("TabContainer/Category/MarginContainer/VBoxContainer/HBoxContainer2/CategoryExtenderOptions")
+category_file_name = NodePath("TabContainer/Category/MarginContainer/VBoxContainer/HBoxContainer1/FileNameText")
+
+[node name="TabContainer" type="TabContainer" parent="." unique_id=1272292509]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+tab_alignment = 1
+current_tab = 1
+
+[node name="Item" type="TabBar" parent="TabContainer" unique_id=1392837591]
+visible = false
+layout_mode = 2
+close_with_middle_mouse = false
+metadata/_tab_index = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Item" unique_id=1897606180]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Item/MarginContainer" unique_id=896010408]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="HBoxContainer1" type="HBoxContainer" parent="TabContainer/Item/MarginContainer/VBoxContainer" unique_id=1686477019]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="FileNameLabel" type="Label" parent="TabContainer/Item/MarginContainer/VBoxContainer/HBoxContainer1" unique_id=1123870926]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Display Name"
+
+[node name="FileNameText" type="LineEdit" parent="TabContainer/Item/MarginContainer/VBoxContainer/HBoxContainer1" unique_id=145641625]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Item/MarginContainer/VBoxContainer" unique_id=1014060412]
+layout_mode = 2
+theme_override_constants/separation = 61
+
+[node name="CategoryLabel" type="Label" parent="TabContainer/Item/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1950814675]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Category"
+
+[node name="CategoryOptions" type="OptionButton" parent="TabContainer/Item/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=524557657]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+selected = 0
+item_count = 2
+popup/item_0/text = "GDItem"
+popup/item_0/id = 0
+popup/item_1/text = "Consumable"
+popup/item_1/id = 1
+
+[node name="Category" type="TabBar" parent="TabContainer" unique_id=1558992663]
+layout_mode = 2
+close_with_middle_mouse = false
+metadata/_tab_index = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Category" unique_id=315162966]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Category/MarginContainer" unique_id=1599277641]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="HBoxContainer1" type="HBoxContainer" parent="TabContainer/Category/MarginContainer/VBoxContainer" unique_id=1103049950]
+layout_mode = 2
+theme_override_constants/separation = 29
+
+[node name="FileNameLabel" type="Label" parent="TabContainer/Category/MarginContainer/VBoxContainer/HBoxContainer1" unique_id=1591685678]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Category Name"
+
+[node name="FileNameText" type="LineEdit" parent="TabContainer/Category/MarginContainer/VBoxContainer/HBoxContainer1" unique_id=1440238632]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Category/MarginContainer/VBoxContainer" unique_id=906947306]
+layout_mode = 2
+theme_override_constants/separation = 80
+
+[node name="CategoryExtenderLabel" type="Label" parent="TabContainer/Category/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1736270806]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Extends"
+
+[node name="CategoryExtenderOptions" type="OptionButton" parent="TabContainer/Category/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=56735484]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+selected = 0
+item_count = 2
+popup/item_0/text = "GDItem"
+popup/item_0/id = 0
+popup/item_1/text = "Consumable"
+popup/item_1/id = 1
