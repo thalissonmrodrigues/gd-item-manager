@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://br4oin17rs5wk"]
+
+[ext_resource type="Script" uid="uid://uouqegplfj2w" path="res://addons/gd_item/editor/dialogs/create_item/create_item.gd" id="1_1jagf"]
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" unique_id=2125394692 node_paths=PackedStringArray("file_name", "category")]
+oversampling_override = 1.0
+title = "Create Item"
+initial_position = 1
+size = Vector2i(255, 180)
+visible = true
+ok_button_text = "Create"
+script = ExtResource("1_1jagf")
+file_name = NodePath("VBoxContainer/FileName/LineEdit")
+category = NodePath("VBoxContainer/Category/OptionButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=896010408]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 247.0
+offset_bottom = 131.0
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="FileName" type="HBoxContainer" parent="VBoxContainer" unique_id=1686477019]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="VBoxContainer/FileName" unique_id=1123870926]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "File Name"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/FileName" unique_id=145641625]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Category" type="HBoxContainer" parent="VBoxContainer" unique_id=1014060412]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="VBoxContainer/Category" unique_id=1950814675]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Category"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/Category" unique_id=524557657]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+selected = 0
+item_count = 2
+popup/item_0/text = "GDItemBase"
+popup/item_0/id = 0
+popup/item_1/text = "Consumable"
+popup/item_1/id = 1
+
+[connection signal="confirmed" from="." to="." method="_on_confirmed"]

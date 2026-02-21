@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GDItemBase" format=3 uid="uid://dg0y2y540kttm"]
+
+[ext_resource type="Script" uid="uid://c4x5aeiiu4arh" path="res://addons/gd_item/scripts/item.gd" id="1_es5ut"]
+[ext_resource type="Texture2D" uid="uid://bxt75v6oysfvl" path="res://sprites/gold.png" id="1_pat8s"]
+
+[resource]
+resource_path = "res://items/gold.tres"
+script = ExtResource("1_es5ut")
+friendly_id = "gold"
+display_name = "Gold Bar"
+description = "gold"
+icon = ExtResource("1_pat8s")
+is_stackable = true
+max_stack_size = 99
+metadata/_custom_type_script = "uid://c4x5aeiiu4arh"

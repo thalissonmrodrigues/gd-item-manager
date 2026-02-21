@@ -1,0 +1,143 @@
+[gd_scene format=3 uid="uid://b7dqfpis5yxjp"]
+
+[ext_resource type="Script" uid="uid://82vne06qo7e8" path="res://addons/gd_item/editor/panel/panel.gd" id="1_cw3ps"]
+[ext_resource type="Texture2D" uid="uid://c5hgpnnjgwlb6" path="res://sprites/bronze.png" id="2_v4bkb"]
+[ext_resource type="Texture2D" uid="uid://bxt75v6oysfvl" path="res://sprites/gold.png" id="3_qyvfk"]
+[ext_resource type="Texture2D" uid="uid://bmb4msda2akuy" path="res://sprites/silver.png" id="4_gj3n8"]
+[ext_resource type="Texture2D" uid="uid://hou25c4vhwkc" path="res://sprites/sword.png" id="5_dncqn"]
+
+[sub_resource type="DPITexture" id="DPITexture_v4bkb"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#ff5d5d\" d=\"M2 1v8.586l1.293-1.293a1 1 0 0 1 1.414 0L7 10.587l2.293-2.293a1 1 0 0 1 1.414 0L13 10.586l1-1V6H9V1H2zm8 0v4h4zm-6 9.414-2 2V15h12v-2.586l-.293.293a1 1 0 0 1-1.414 0L10 10.414l-2.293 2.293a1 1 0 0 1-1.414 0L4 10.414z\"/></svg>
+"
+
+[node name="Panel" type="Control" unique_id=1990881283 node_paths=PackedStringArray("item_list", "content", "add_item", "delete_item", "edit_script", "reload_list", "build_storage", "search_item")]
+auto_translate_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_cw3ps")
+item_list = NodePath("HSplitContainer/Sidebar/ItemList")
+content = NodePath("HSplitContainer/Content")
+add_item = NodePath("HSplitContainer/Sidebar/MarginToolbars/Toolbars/AddItem")
+delete_item = NodePath("HSplitContainer/Sidebar/MarginToolbars/Toolbars/DeleteItem")
+edit_script = NodePath("HSplitContainer/Sidebar/MarginToolbars/Toolbars/EditScript")
+reload_list = NodePath("HSplitContainer/Sidebar/MarginToolbars/Toolbars/ReloadList")
+build_storage = NodePath("HSplitContainer/Sidebar/MarginToolbars/Toolbars/BuildStorage")
+search_item = NodePath("HSplitContainer/Sidebar/MarginSearch/Search")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="." unique_id=2005322761]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offsets = PackedInt32Array(250, -874)
+dragging_enabled = false
+split_offset = 250
+
+[node name="Sidebar" type="VBoxContainer" parent="HSplitContainer" unique_id=1207060424]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="MarginToolbars" type="MarginContainer" parent="HSplitContainer/Sidebar" unique_id=78177881]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="Toolbars" type="HBoxContainer" parent="HSplitContainer/Sidebar/MarginToolbars" unique_id=394773959]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 30
+
+[node name="AddItem" type="Button" parent="HSplitContainer/Sidebar/MarginToolbars/Toolbars" unique_id=1853215621]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Create new item."
+theme_type_variation = &"FlatButton"
+icon = SubResource("DPITexture_v4bkb")
+
+[node name="DeleteItem" type="Button" parent="HSplitContainer/Sidebar/MarginToolbars/Toolbars" unique_id=1412189107]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Remove selected item."
+theme_type_variation = &"FlatButton"
+disabled = true
+icon = SubResource("DPITexture_v4bkb")
+
+[node name="ReloadList" type="Button" parent="HSplitContainer/Sidebar/MarginToolbars/Toolbars" unique_id=1528345330]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Reload item list."
+theme_type_variation = &"FlatButton"
+icon = SubResource("DPITexture_v4bkb")
+
+[node name="BuildStorage" type="Button" parent="HSplitContainer/Sidebar/MarginToolbars/Toolbars" unique_id=1995449046]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+tooltip_text = "Generate the item storage file."
+theme_type_variation = &"FlatButton"
+icon = SubResource("DPITexture_v4bkb")
+
+[node name="EditScript" type="Button" parent="HSplitContainer/Sidebar/MarginToolbars/Toolbars" unique_id=1173236625]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+tooltip_text = "Edit the script for the selected item."
+theme_type_variation = &"FlatButton"
+disabled = true
+icon = SubResource("DPITexture_v4bkb")
+
+[node name="MarginSearch" type="MarginContainer" parent="HSplitContainer/Sidebar" unique_id=650986539]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 5
+
+[node name="Search" type="LineEdit" parent="HSplitContainer/Sidebar/MarginSearch" unique_id=1067594524]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+placeholder_text = "Search item..."
+clear_button_enabled = true
+right_icon = SubResource("DPITexture_v4bkb")
+
+[node name="ItemList" type="ItemList" parent="HSplitContainer/Sidebar" unique_id=1347665627]
+layout_mode = 2
+size_flags_vertical = 3
+allow_reselect = true
+auto_width = true
+auto_height = true
+item_count = 4
+fixed_icon_size = Vector2i(16, 16)
+item_0/text = "Bronze Bar"
+item_0/icon = ExtResource("2_v4bkb")
+item_1/text = "Gold Bar"
+item_1/icon = ExtResource("3_qyvfk")
+item_2/text = "Silver Bar"
+item_2/icon = ExtResource("4_gj3n8")
+item_3/text = "Iron Sword"
+item_3/icon = ExtResource("5_dncqn")
+
+[node name="VSeparator" type="VSeparator" parent="HSplitContainer" unique_id=1035660767]
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="HSplitContainer" unique_id=330432892]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="pressed" from="HSplitContainer/Sidebar/MarginToolbars/Toolbars/AddItem" to="." method="_on_add_item_pressed"]
+[connection signal="pressed" from="HSplitContainer/Sidebar/MarginToolbars/Toolbars/DeleteItem" to="." method="_on_delete_item_pressed"]
+[connection signal="pressed" from="HSplitContainer/Sidebar/MarginToolbars/Toolbars/ReloadList" to="." method="_on_reload_list_pressed"]
+[connection signal="pressed" from="HSplitContainer/Sidebar/MarginToolbars/Toolbars/EditScript" to="." method="_on_edit_script_pressed"]
+[connection signal="text_changed" from="HSplitContainer/Sidebar/MarginSearch/Search" to="." method="_on_search_text_changed"]
+[connection signal="item_selected" from="HSplitContainer/Sidebar/ItemList" to="." method="_on_item_list_item_selected"]
