@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="GDItem" format=3 uid="uid://c24pxss8xw6x5"]
 
-[ext_resource type="Texture2D" uid="uid://hou25c4vhwkc" path="res://items/sprites/sword.png" id="1_bikib"]
-[ext_resource type="Script" uid="uid://c4x5aeiiu4arh" path="res://addons/gd_item_manager/scripts/item.gd" id="2_s2bgj"]
+[ext_resource type="Texture2D" uid="uid://hou25c4vhwkc" path="res://sprites/sword.png" id="1_bikib"]
+[ext_resource type="Script" uid="uid://c4x5aeiiu4arh" path="res://addons/gd_item/scripts/item.gd" id="2_s2bgj"]
 
 [resource]
 resource_path = "res://items/sword.tres"

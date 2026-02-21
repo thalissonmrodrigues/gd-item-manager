@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="GDItem" format=3 uid="uid://baoemy1ec20ym"]
+[gd_resource type="Resource" script_class="GDItemBase" format=3 uid="uid://baoemy1ec20ym"]
 
-[ext_resource type="Texture2D" uid="uid://bmb4msda2akuy" path="res://items/sprites/silver.png" id="1_f3g3x"]
-[ext_resource type="Script" uid="uid://c4x5aeiiu4arh" path="res://addons/gd_item_manager/scripts/item.gd" id="2_nl5s0"]
+[ext_resource type="Texture2D" uid="uid://bmb4msda2akuy" path="res://sprites/silver.png" id="1_f3g3x"]
+[ext_resource type="Script" uid="uid://c4x5aeiiu4arh" path="res://addons/gd_item/scripts/item.gd" id="2_nl5s0"]
 
 [resource]
 resource_path = "res://items/silver.tres"

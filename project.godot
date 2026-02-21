@@ -10,23 +10,23 @@ config_version=5
 
 [addons]
 
-gd_item_manager/general/item_database_path="res://item_database.cfg"
-gd_item_manager/general/items_path="res://items/"
-gd_item_manager/general/item_category_path="res://items/categories/"
+gd_item/general/storage_path="res://item_storage.cfg"
+gd_item/general/items_path="res://items/"
+gd_item/general/categories_path="res://categories/"
 
 [application]
 
-config/name="GD Item Manager"
+config/name="GD Item"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
-GDItemDatabase="*uid://dtjjl0ix2sbag"
+GDItemStorage="*uid://dtjjl0ix2sbag"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gd_item_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/gd_item/plugin.cfg")
 
 [physics]
 
