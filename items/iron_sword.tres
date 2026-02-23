@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://dymli2ml0ue1w"]
+
+[ext_resource type="Texture2D" uid="uid://hou25c4vhwkc" path="res://sprites/sword.png" id="1_a8rr4"]
+[ext_resource type="Script" uid="uid://843ic6i2j5ly" path="res://categories/weapon.gd" id="2_sfjfg"]
+
+[resource]
+resource_path = "res://items/iron_sword.tres"
+script = ExtResource("2_sfjfg")
+attack = 100
+friendly_id = "iron_sword"
+display_name = "Iron Sword"
+description = "iron sword vary strong."
+icon = ExtResource("1_a8rr4")
+weight = 50.0

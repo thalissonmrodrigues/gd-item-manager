@@ -1,17 +1,18 @@
 [gd_scene format=3 uid="uid://br4oin17rs5wk"]
 
-[ext_resource type="Script" uid="uid://uouqegplfj2w" path="res://addons/gd_item/editor/dialogs/create_item/create_item.gd" id="1_1jagf"]
+[ext_resource type="Script" uid="uid://uouqegplfj2w" path="res://addons/gd_item/editor/dialogs/create_resource/create_resource.gd" id="1_1jagf"]
 
-[node name="ConfirmationDialog" type="ConfirmationDialog" unique_id=2125394692 node_paths=PackedStringArray("file_name", "category")]
+[node name="ConfirmationDialog" type="ConfirmationDialog" unique_id=2125394692 node_paths=PackedStringArray("file_name_line_edit", "category_label", "category_option_button")]
 oversampling_override = 1.0
-title = "Create Item"
+title = "Create"
 initial_position = 1
 size = Vector2i(255, 180)
 visible = true
 ok_button_text = "Create"
 script = ExtResource("1_1jagf")
-file_name = NodePath("VBoxContainer/FileName/LineEdit")
-category = NodePath("VBoxContainer/Category/OptionButton")
+file_name_line_edit = NodePath("VBoxContainer/FileName/LineEdit")
+category_label = NodePath("VBoxContainer/Category/Label")
+category_option_button = NodePath("VBoxContainer/Category/OptionButton")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=896010408]
 offset_left = 8.0
@@ -52,7 +53,7 @@ selected = 0
 item_count = 2
 popup/item_0/text = "GDItemBase"
 popup/item_0/id = 0
-popup/item_1/text = "Consumable"
+popup/item_1/text = "Weapon"
 popup/item_1/id = 1
 
 [connection signal="confirmed" from="." to="." method="_on_confirmed"]

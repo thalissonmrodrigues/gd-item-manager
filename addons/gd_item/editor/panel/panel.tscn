@@ -1,21 +1,79 @@
 [gd_scene format=3 uid="uid://b7dqfpis5yxjp"]
 
 [ext_resource type="Script" uid="uid://82vne06qo7e8" path="res://addons/gd_item/editor/panel/panel.gd" id="1_cw3ps"]
+[ext_resource type="ButtonGroup" uid="uid://dsr52k4kdcusp" path="res://addons/gd_item/editor/panel/item_and_category_toggle_button.tres" id="2_qyvfk"]
 [ext_resource type="Texture2D" uid="uid://c5hgpnnjgwlb6" path="res://sprites/bronze.png" id="2_v4bkb"]
 [ext_resource type="Texture2D" uid="uid://bxt75v6oysfvl" path="res://sprites/gold.png" id="3_qyvfk"]
 [ext_resource type="Texture2D" uid="uid://bmb4msda2akuy" path="res://sprites/silver.png" id="4_gj3n8"]
 [ext_resource type="Texture2D" uid="uid://hou25c4vhwkc" path="res://sprites/sword.png" id="5_dncqn"]
 
-[sub_resource type="DPITexture" id="DPITexture_v4bkb"]
+[sub_resource type="DPITexture" id="DPITexture_qyvfk"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#ff5d5d\" d=\"M2 1v8.586l1.293-1.293a1 1 0 0 1 1.414 0L7 10.587l2.293-2.293a1 1 0 0 1 1.414 0L13 10.586l1-1V6H9V1H2zm8 0v4h4zm-6 9.414-2 2V15h12v-2.586l-.293.293a1 1 0 0 1-1.414 0L10 10.414l-2.293 2.293a1 1 0 0 1-1.414 0L4 10.414z\"/></svg>
 "
 
-[node name="Panel" type="Control" unique_id=1990881283 node_paths=PackedStringArray("item_list", "content", "add_item", "delete_item", "edit_script", "reload_list", "build_storage", "search_item")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qyvfk"]
+bg_color = Color(0.28627452, 0.28627452, 0.28627452, 1)
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v4bkb"]
+bg_color = Color(0.6, 0.6, 0.6, 0.5882353)
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dncqn"]
+bg_color = Color(0.6, 0.6, 0.6, 0.78431374)
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_23v80"]
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b34xk"]
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gj3n8"]
+bg_color = Color(0.28627452, 0.28627452, 0.28627452, 1)
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5blmq"]
+bg_color = Color(0.6, 0.6, 0.6, 0.5882353)
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nku6o"]
+bg_color = Color(0.6, 0.6, 0.6, 0.78431374)
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_utgse"]
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d7rtp"]
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_detail = 4
+
+[node name="Panel" type="Control" unique_id=1990881283 node_paths=PackedStringArray("item_list", "content", "add_button", "delete_button", "edit_script", "reload_list", "build_storage", "search", "items_button", "categories_button")]
 auto_translate_mode = 2
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 0
+offset_top = 70.0
+offset_right = 242.0
+offset_bottom = 70.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -23,12 +81,15 @@ size_flags_vertical = 3
 script = ExtResource("1_cw3ps")
 item_list = NodePath("HSplitContainer/Sidebar/ItemList")
 content = NodePath("HSplitContainer/Content")
-add_item = NodePath("HSplitContainer/Sidebar/MarginToolbars/Toolbars/AddItem")
-delete_item = NodePath("HSplitContainer/Sidebar/MarginToolbars/Toolbars/DeleteItem")
+add_button = NodePath("HSplitContainer/Sidebar/MarginToolbars/Toolbars/AddButton")
+delete_button = NodePath("HSplitContainer/Sidebar/MarginToolbars/Toolbars/DeleteButton")
 edit_script = NodePath("HSplitContainer/Sidebar/MarginToolbars/Toolbars/EditScript")
 reload_list = NodePath("HSplitContainer/Sidebar/MarginToolbars/Toolbars/ReloadList")
 build_storage = NodePath("HSplitContainer/Sidebar/MarginToolbars/Toolbars/BuildStorage")
-search_item = NodePath("HSplitContainer/Sidebar/MarginSearch/Search")
+search = NodePath("HSplitContainer/Sidebar/MarginSearch/Search")
+items_button = NodePath("HSplitContainer/Sidebar/MarginToggleButtons/HBoxContainer/ItemsButton")
+categories_button = NodePath("HSplitContainer/Sidebar/MarginToggleButtons/HBoxContainer/CategoriesButton")
+_btn_group = ExtResource("2_qyvfk")
 
 [node name="HSplitContainer" type="HSplitContainer" parent="." unique_id=2005322761]
 layout_mode = 1
@@ -55,22 +116,22 @@ layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 30
 
-[node name="AddItem" type="Button" parent="HSplitContainer/Sidebar/MarginToolbars/Toolbars" unique_id=1853215621]
+[node name="AddButton" type="Button" parent="HSplitContainer/Sidebar/MarginToolbars/Toolbars" unique_id=1853215621]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 tooltip_text = "Create new item."
 theme_type_variation = &"FlatButton"
-icon = SubResource("DPITexture_v4bkb")
+icon = SubResource("DPITexture_qyvfk")
 
-[node name="DeleteItem" type="Button" parent="HSplitContainer/Sidebar/MarginToolbars/Toolbars" unique_id=1412189107]
+[node name="DeleteButton" type="Button" parent="HSplitContainer/Sidebar/MarginToolbars/Toolbars" unique_id=1412189107]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 tooltip_text = "Remove selected item."
 theme_type_variation = &"FlatButton"
 disabled = true
-icon = SubResource("DPITexture_v4bkb")
+icon = SubResource("DPITexture_qyvfk")
 
 [node name="ReloadList" type="Button" parent="HSplitContainer/Sidebar/MarginToolbars/Toolbars" unique_id=1528345330]
 layout_mode = 2
@@ -78,7 +139,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 tooltip_text = "Reload item list."
 theme_type_variation = &"FlatButton"
-icon = SubResource("DPITexture_v4bkb")
+icon = SubResource("DPITexture_qyvfk")
 
 [node name="BuildStorage" type="Button" parent="HSplitContainer/Sidebar/MarginToolbars/Toolbars" unique_id=1995449046]
 layout_mode = 2
@@ -86,7 +147,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 0
 tooltip_text = "Generate the item storage file."
 theme_type_variation = &"FlatButton"
-icon = SubResource("DPITexture_v4bkb")
+icon = SubResource("DPITexture_qyvfk")
 
 [node name="EditScript" type="Button" parent="HSplitContainer/Sidebar/MarginToolbars/Toolbars" unique_id=1173236625]
 layout_mode = 2
@@ -95,7 +156,7 @@ size_flags_vertical = 0
 tooltip_text = "Edit the script for the selected item."
 theme_type_variation = &"FlatButton"
 disabled = true
-icon = SubResource("DPITexture_v4bkb")
+icon = SubResource("DPITexture_qyvfk")
 
 [node name="MarginSearch" type="MarginContainer" parent="HSplitContainer/Sidebar" unique_id=650986539]
 layout_mode = 2
@@ -106,9 +167,44 @@ theme_override_constants/margin_top = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
-placeholder_text = "Search item..."
+placeholder_text = "Search resource..."
 clear_button_enabled = true
-right_icon = SubResource("DPITexture_v4bkb")
+right_icon = SubResource("DPITexture_qyvfk")
+
+[node name="MarginToggleButtons" type="MarginContainer" parent="HSplitContainer/Sidebar" unique_id=1403631366]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/Sidebar/MarginToggleButtons" unique_id=1078672940]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="ItemsButton" type="Button" parent="HSplitContainer/Sidebar/MarginToggleButtons/HBoxContainer" unique_id=1580741042]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_qyvfk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_v4bkb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_dncqn")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_23v80")
+theme_override_styles/focus = SubResource("StyleBoxFlat_b34xk")
+toggle_mode = true
+button_pressed = true
+button_group = ExtResource("2_qyvfk")
+text = "Items"
+
+[node name="CategoriesButton" type="Button" parent="HSplitContainer/Sidebar/MarginToggleButtons/HBoxContainer" unique_id=469378220]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_gj3n8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5blmq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_nku6o")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_utgse")
+theme_override_styles/focus = SubResource("StyleBoxFlat_d7rtp")
+toggle_mode = true
+button_group = ExtResource("2_qyvfk")
+text = "Categories"
 
 [node name="ItemList" type="ItemList" parent="HSplitContainer/Sidebar" unique_id=1347665627]
 layout_mode = 2
@@ -135,9 +231,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[connection signal="pressed" from="HSplitContainer/Sidebar/MarginToolbars/Toolbars/AddItem" to="." method="_on_add_item_pressed"]
-[connection signal="pressed" from="HSplitContainer/Sidebar/MarginToolbars/Toolbars/DeleteItem" to="." method="_on_delete_item_pressed"]
+[connection signal="pressed" from="HSplitContainer/Sidebar/MarginToolbars/Toolbars/AddButton" to="." method="_on_add_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/Sidebar/MarginToolbars/Toolbars/DeleteButton" to="." method="_on_delete_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Sidebar/MarginToolbars/Toolbars/ReloadList" to="." method="_on_reload_list_pressed"]
 [connection signal="pressed" from="HSplitContainer/Sidebar/MarginToolbars/Toolbars/EditScript" to="." method="_on_edit_script_pressed"]
 [connection signal="text_changed" from="HSplitContainer/Sidebar/MarginSearch/Search" to="." method="_on_search_text_changed"]
-[connection signal="item_selected" from="HSplitContainer/Sidebar/ItemList" to="." method="_on_item_list_item_selected"]
+[connection signal="item_selected" from="HSplitContainer/Sidebar/ItemList" to="." method="_on_item_list_resource_selected"]

@@ -4,30 +4,37 @@ extends Control
 
 @export var item_list: ItemList
 @export var content: VBoxContainer
-@export var add_item: Button
-@export var delete_item: Button
+@export var add_button: Button
+@export var delete_button: Button
 @export var edit_script: Button
 @export var reload_list: Button
 @export var build_storage: Button
-@export var search_item: LineEdit
+@export var search: LineEdit
+@export var items_button: Button
+@export var categories_button: Button
+@export var _btn_group: ButtonGroup
 
-var _current_item: GDItemBase
+var _current_resource: Resource
 var _inspector: EditorInspector
 var _search_timer: SceneTreeTimer
 
-const CREATE_ITEM_DIALOG: PackedScene = preload("res://addons/gd_item/editor/dialogs/create_item/create_item.tscn")
-const DELETE_ITEM_DIALOG: PackedScene = preload("res://addons/gd_item/editor/dialogs/delete_item/delete_item.tscn")
+const CREATE_RESOURCE_DIALOG: PackedScene = preload("res://addons/gd_item/editor/dialogs/create_resource/create_resource.tscn")
+const DELETE_RESOURCE_DIALOG: PackedScene = preload("res://addons/gd_item/editor/dialogs/delete_resource/delete_resource.tscn")
+
+enum SECTION { ITEMS, CATEGORIES }
+
 
 func _ready() -> void:
 	auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 
-	add_item.icon = get_theme_icon("Add", "EditorIcons")
-	delete_item.icon = get_theme_icon("Remove", "EditorIcons")
+	add_button.icon = get_theme_icon("Add", "EditorIcons")
+	delete_button.icon = get_theme_icon("Remove", "EditorIcons")
 	reload_list.icon = get_theme_icon("Reload", "EditorIcons")
 	build_storage.icon = get_theme_icon("MainPlay", "EditorIcons")
 	edit_script.icon = get_theme_icon("ScriptExtend", "EditorIcons")
-	search_item.right_icon = get_theme_icon("Search", "EditorIcons")
+	search.right_icon = get_theme_icon("Search", "EditorIcons")
 
+	_btn_group.pressed.connect(_btn_group_pressed)
 	_update_access_to_buttons()
 
 	_inspector = EditorInspector.new()
@@ -35,144 +42,179 @@ func _ready() -> void:
 	_inspector.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_child(_inspector)
 
-	refresh_item_list()
+	_refresh_resource_list()
 
 
-## Update the list of items.
-func refresh_item_list(filters: Dictionary = {}) -> void:
+## Update the list of resource.
+func _refresh_resource_list(filter: String = "") -> void:
 	item_list.clear()
 
-	var path: String = GDUtils.get_settings("ITEMS")
+	var data: Dictionary = {}
+	var section: SECTION = _get_current_section()
+	if section == SECTION.ITEMS:
+		data = {
+			"settings": "ITEMS",
+			"file_extension": ".tres",
+		}
+	else:
+		data = {
+			"settings": "CATEGORIES",
+			"file_extension": ".gd",
+		}
+
+	var path: String = GDUtils.get_settings(data.settings)
 	if path.is_empty():
-		push_warning("GDPanel: No path to the item settings was found.")
+		push_warning("GDPanel: No path to settings was found.")
 		return
 
-	var result: Dictionary = GDUtils.get_resources_from_directory(path, ".tres")
-	var items: Array = result.values().filter(
-		func(item):
-			for property in filters:
-				if property in item:
-					var filter_value: Variant = filters[property]
-					var item_value: Variant = item.get(property)
+	var result: Dictionary = GDUtils.get_resources_from_directory(path, data.file_extension)
 
-					if filter_value is String and item_value is String:
-						if not filter_value.to_lower() in item_value.to_lower():
-							return false
-						continue
+	var resources: Array = result.values().filter(
+		func(resource):
+			if not filter.is_empty():
+				if section == SECTION.ITEMS:
+					return filter.to_lower() in resource.display_name.to_lower()
 
-					if filter_value == item_value:
-						return false
+				if section == SECTION.CATEGORIES:
+					return filter.to_lower() in resource.get_global_name().to_lower()
 
-			# All filters passed.
+				push_warning("GDPanel: Section does not exist.")
+				return false
+
+			# Not exist filter to apply.
 			return true
 	)
 
-	for item in items:
-		var idx: int = item_list.add_item(item.display_name)
-		item_list.set_item_metadata(idx, item)
-		item_list.set_item_icon(idx, item.icon)
+	for resource in resources:
+		var title: String
+		var icon: Texture2D
+		if section == SECTION.ITEMS:
+			title = resource.display_name
+			icon = resource.icon
+		else:
+			title = resource.get_global_name()
+			icon = get_theme_icon("GDScript", "EditorIcons")
+
+		var idx: int = item_list.add_item(title)
+		item_list.set_item_metadata(idx, resource)
+		item_list.set_item_icon(idx, icon)
 
 
-## Triggered when the item_selected signal from the item_list is activated, then select the item that was clicked.
-func _on_item_list_item_selected(index: int) -> void:
-	var item: GDItemBase = item_list.get_item_metadata(index)
-	var previous_item: GDItemBase = _inspector.get_edited_object()
+## Triggered when the item_selected signal from the item_list is activated, then select the resource that was clicked.
+func _on_item_list_resource_selected(index: int) -> void:
+	var resource: Resource = item_list.get_item_metadata(index)
+	var previous_resource: Resource = _current_resource
 
-	if previous_item == item:
-		_deselect_item()
+	if previous_resource == resource:
+		_deselect_resource()
 	else:
-		_select_item(item)
+		_select_resource(resource)
 
 
-## Select the item for edit in the inspector.
-func _select_item(item: GDItemBase) -> void:
-	_current_item = item
-	_inspector.edit(_current_item)
+## Select the resource.
+func _select_resource(resource: Resource) -> void:
+	_current_resource = resource
 	_update_access_to_buttons()
 
+	if _get_current_section() == SECTION.ITEMS:
+		_inspector.edit(_current_resource)
 
-## Deselect the item and remove of inspector.
-func _deselect_item() -> void:
+
+## Deselect the resource.
+func _deselect_resource() -> void:
 	item_list.deselect_all()
+	_current_resource = null
 	_inspector.edit(null)
-	_current_item = null
 	_update_access_to_buttons()
 
 
 ## Update access to the buttons.
 func _update_access_to_buttons() -> void:
-	edit_script.disabled = not _current_item
-	delete_item.disabled = not _current_item
+	edit_script.disabled = not _current_resource
+	delete_button.disabled = not _current_resource
 
 
-## Triggered when the edit_script button is pressed, then redirect to edit the script of the selected item.
+## Triggered when the edit_script button is pressed, then redirect to edit the script of the selected resource.
 func _on_edit_script_pressed() -> void:
-	if _current_item:
-		var script: Script = _current_item.get_script()
-		if script:
-			EditorInterface.edit_resource(script)
+	if not _current_resource:
+		return
+
+	var script: GDScript
+	if _get_current_section() == SECTION.ITEMS:
+		script = _current_resource.get_script()
+	else:
+		script = _current_resource
+
+	if script:
+		EditorInterface.edit_resource(script)
+	else:
+		push_warning("GDPanel: This resource does not have an associated script.")
 
 
-## Triggered when text is typed into the search field, then applies a filter for list of items.
+## Triggered when text is typed into the search field, then applies a filter for list of resource.
 func _on_search_text_changed(search: String) -> void:
 	var current_timer: SceneTreeTimer = get_tree().create_timer(0.5)
 	_search_timer = current_timer
-
 	await current_timer.timeout
-
 	if _search_timer == current_timer:
-		var filters: Dictionary = {"display_name": search} if not search.is_empty() else {}
-		refresh_item_list(filters)
+		_refresh_resource_list(search)
 
 
-## Triggered when the reload button is pressed, then reload the list of items.
+## Triggered when the reload button is pressed, then reload the list of resource.
 func _on_reload_list_pressed() -> void:
-	search_item.text = ""
-	_deselect_item()
-	refresh_item_list()
+	search.text = ""
+	_deselect_resource()
+	_refresh_resource_list()
 
 
-## Triggered when the add item button is pressed. then open create item dialog.
-func _on_add_item_pressed() -> void:
-	var dialog: ConfirmationDialog = CREATE_ITEM_DIALOG.instantiate()
+## Triggered when the add button is pressed. then open create resource dialog.
+func _on_add_button_pressed() -> void:
+	var dialog: ConfirmationDialog = CREATE_RESOURCE_DIALOG.instantiate()
 	add_child(dialog)
-	_deselect_item()
+	dialog.setup(SECTION.keys()[_get_current_section()])
 	dialog.creation_request.connect(_on_create)
 
 
-## Triggered when receive the `creation_request` signal, then creates the new item.
+## Triggered when receive the `creation_request` signal, then creates the new resource.
 func _on_create(data: Dictionary):
-	var path: String = GDUtils.get_settings("ITEMS")
-
+	var err: Error
+	var path: String = GDUtils.get_settings(data.type)
 	if path.is_empty():
-		push_warning("GDPanel: No path to the item settings was found.")
+		push_warning("GDPanel: No path to the %s settings was found." % [data.type])
 		return
 
-	var item: GDItemBase = data.category.new()
-	item.friendly_id = data.file_name.to_snake_case()
-	item.display_name = data.file_name
-	var full_path: String = path + item.friendly_id + ".tres"
-	var err: Error = ResourceSaver.save(item, full_path)
+	if data.type == "ITEMS":
+		var item: GDItemBase = data.category.new()
+		item.friendly_id = data.file_name.to_snake_case()
+		item.display_name = data.file_name.capitalize()
+		var full_path: String = path + item.friendly_id + ".tres"
+		err = ResourceSaver.save(item, full_path)
+	else:
+		var category: GDScript = GDScript.new()
+		category.source_code = "@tool\nclass_name %s extends %s\n" % [data.file_name.to_pascal_case(), data.category.get_global_name()]
+		var full_path: String = path + data.file_name.to_snake_case() + ".gd"
+		err = ResourceSaver.save(category, full_path)
 
 	if err != OK:
-		push_warning("GDPanel: File creation failed. Path to save: %s ]" % [path])
+		push_warning("GDPanel: File creation failed. Error code: %s ]" % [err])
 		return
 
+	_deselect_resource()
 	EditorInterface.get_resource_filesystem().scan()
-	refresh_item_list()
+	_refresh_resource_list()
 
 
-## Triggered when the delete item button is pressed. then open delete item dialog.
-func _on_delete_item_pressed() -> void:
-	var dialog: ConfirmationDialog = DELETE_ITEM_DIALOG.instantiate()
+## Triggered when the delete button is pressed. then open delete resource dialog.
+func _on_delete_button_pressed() -> void:
+	var dialog: ConfirmationDialog = DELETE_RESOURCE_DIALOG.instantiate()
 	add_child(dialog)
-	dialog.setup(_current_item)
+	dialog.setup(_current_resource, SECTION.keys()[_get_current_section()])
 	dialog.deletion_request.connect(_on_delete)
 
 
-## Triggered when receive the `deletion request` signal, then delete the current item selected.
-func _on_delete(item: GDItemBase) -> void:
-	var path: String = item.resource_path
+## Triggered when receive the `deletion request` signal, then delete the current resource selected.
+func _on_delete(resource: Resource) -> void:
+	var path: String = resource.resource_path
 	if FileAccess.file_exists(path):
 		var dir: DirAccess = DirAccess.open("res://")
 		var err: Error = dir.remove(path)
@@ -182,6 +224,18 @@ func _on_delete(item: GDItemBase) -> void:
 	else:
 		push_warning("The file does not exist in the following path: %s" % [path])
 
-	_deselect_item()
+	_deselect_resource()
 	EditorInterface.get_resource_filesystem().scan()
-	refresh_item_list()
+	_refresh_resource_list()
+
+
+## Get current section selected (Items ou Categories).
+func _get_current_section() -> SECTION:
+	var button_active: BaseButton = _btn_group.get_pressed_button()
+	return SECTION.ITEMS if button_active == items_button else SECTION.CATEGORIES
+
+
+##  Triggered when receive the `pressed` signal of button group.
+func _btn_group_pressed(button: BaseButton) -> void:
+	_deselect_resource()
+	_refresh_resource_list()

@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://fomyt4adpelq"]
 
-[ext_resource type="Script" uid="uid://eq60ffs3wt7e" path="res://addons/gd_item/editor/dialogs/delete_item/delete_item.gd" id="1_c8873"]
+[ext_resource type="Script" uid="uid://eq60ffs3wt7e" path="res://addons/gd_item/editor/dialogs/delete_resource/delete_resource.gd" id="1_c8873"]
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" unique_id=2125394692 node_paths=PackedStringArray("label")]
 oversampling_override = 1.0
-title = "Create Item"
+title = "Delete"
 initial_position = 1
 size = Vector2i(255, 180)
 visible = true
