@@ -65,7 +65,7 @@ func _create_settings() -> void:
 
 
 ## Remove settings if exists.
-func _remove_settings():
+func _remove_settings() -> void:
 	for settings in GDUtils.SETTINGS.values():
 		if not ProjectSettings.has_setting(settings.path):
 			ProjectSettings.set_setting(settings.path, null)
